@@ -1,4 +1,3 @@
-import axios from "axios";
 import AxiosConfig from "../config/AxiosConfig";
 
 const RESOURCE = "/api/publishers";

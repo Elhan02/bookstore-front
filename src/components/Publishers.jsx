@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllPublishers } from "../services/PublisherService";
+import { getAllPublishers } from "../services/PublishersService";
 
 const Publishers = () => {
     const [publishers, setPublishers] = useState([]);
@@ -31,7 +31,7 @@ const Publishers = () => {
 return (
     <div className="publishers">
         <h1>Publishers page</h1>
-        <table>
+        <table className="publishers-table">
             <thead>
                 <tr>
                     <th>Name</th>
