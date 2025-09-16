@@ -14,6 +14,13 @@ export async function getBookById(bookId) {
 
 export async function createBook(bookData) {
     const response = await AxiosConfig.post(RESOURCE, bookData);
+    console.log(bookData);
+    return response.data;
+}
+
+export async function updateBook(bookId, bookData) {
+    const response = await AxiosConfig.put(`${RESOURCE}/${bookId}`, bookData);
+    console.log(bookData);
     return response.data;
 }
 
