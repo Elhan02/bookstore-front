@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getAllBooks, deleteBook } from "../services/BooksService";
 import { Navigate, useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
+import UserContext from "./UserContext";
 
 const Books = () => {
+    const { user } = useContext(UserContext);
     const [books, setBooks] = useState([]);
     const [errorMsg, setErrorMsg] = useState('');
     const [loading, setLoading] = useState(false);
@@ -81,10 +83,14 @@ const Books = () => {
                             <td>{book.pageCount}</td>
                             <td>{book.isbn}</td>
                             <td>{new Date(book.publishedDate).toLocaleDateString('en-US')}</td>
-                            <td>{book.author.fullName}</td>
-                            <td>{book.publisher.name}</td>
-                            <td><button className="delete-btn" onClick={() => handleDelete(book.id)}>Delete</button></td>
-                            <td><button className="edit-btn" onClick={() => {navigate(`/update-book/${book.id}`)}}>Edit</button></td>
+                            <td>{book.authorFullName}</td>
+                            <td>{book.publisherName}</td>
+                            {user?.role === "Editor" &&
+                                <>
+                                <td><button className="delete-btn" onClick={() => handleDelete(book.id)}>Delete</button></td>
+                                <td><button className="edit-btn" onClick={() => {navigate(`/update-book/${book.id}`)}}>Edit</button></td>
+                            </>
+                            }
                         </tr>
                     ))}
                 </tbody>
