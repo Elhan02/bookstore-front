@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import UserContext from "./UserContext";
+import UserContext from "./userContext";
 import LogoutButton from "./LogoutButton";
 
 const Header = () => {

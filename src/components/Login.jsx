@@ -31,7 +31,15 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.open(
+      "http://localhost:5234/api/auth/google-login",
+      "width=500,height=600"
+    );
+  };
+  
   return (
+    <>
     <form onSubmit={handleLogin} style={{ maxWidth: '300px', margin: '0 auto' }}>
       <h2>Login</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -45,6 +53,8 @@ const Login = () => {
       </div>
       <button type="submit">Log in</button>
     </form>
+    <button onClick={handleGoogleLogin}>Log in with Google</button>
+    </>
   );
 };
 
