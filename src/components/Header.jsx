@@ -8,6 +8,10 @@ const Header = () => {
     return (
         <nav>
             <ul>
+                {user?.role === "Editor" && (<>
+                <li><Link className="nav-link" to="/volumes">Volumes</Link></li>
+                <li><Link className="nav-link" to="/issues">Issues</Link></li>
+                </>)}
                 <li><Link className="nav-link" to="/publishers">Publishers</Link></li>
                 <li><Link className="nav-link" to="/books">Books</Link></li>
                 {user && <li><Link className="nav-link" to="/add-book">+ New Book</Link></li>}

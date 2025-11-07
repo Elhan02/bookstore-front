@@ -59,42 +59,45 @@ const Books = () => {
     }, [])
 
     return (
-        <div className="books">
+        <div>
             <h1>Books page</h1>
-            {loading && <Spinner />}
-            {errorMsg && <p>{errorMsg}</p>}
-            <table className="books-table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Pages</th>
-                        <th>ISBN</th>
-                        <th>Publication date</th>
-                        <th>Author</th>
-                        <th>Publisher</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {books.map(book => (
-                        <tr key={book.id}>
-                            <td>{book.title}</td>
-                            <td>{book.pageCount}</td>
-                            <td>{book.isbn}</td>
-                            <td>{new Date(book.publishedDate).toLocaleDateString('en-US')}</td>
-                            <td>{book.authorFullName}</td>
-                            <td>{book.publisherName}</td>
-                            {user?.role === "Editor" &&
-                                <>
-                                <td><button className="delete-btn" onClick={() => handleDelete(book.id)}>Delete</button></td>
-                                <td><button className="edit-btn" onClick={() => {navigate(`/update-book/${book.id}`)}}>Edit</button></td>
-                            </>
-                            }
+            <div className="table-wrapper">
+
+                {loading && <Spinner />}
+                {errorMsg && <p>{errorMsg}</p>}
+                <table className="books-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Pages</th>
+                            <th>ISBN</th>
+                            <th>Publication date</th>
+                            <th>Author</th>
+                            <th>Publisher</th>
+                            <th></th>
+                            <th></th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {books.map(book => (
+                            <tr key={book.id}>
+                                <td>{book.title}</td>
+                                <td>{book.pageCount}</td>
+                                <td>{book.isbn}</td>
+                                <td>{new Date(book.publishedDate).toLocaleDateString('en-US')}</td>
+                                <td>{book.authorFullName}</td>
+                                <td>{book.publisherName}</td>
+                                {user?.role === "Editor" &&
+                                    <>
+                                        <td><button className="delete-btn" onClick={() => handleDelete(book.id)}>Delete</button></td>
+                                        <td><button className="edit-btn" onClick={() => { navigate(`/update-book/${book.id}`) }}>Edit</button></td>
+                                    </>
+                                }
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }

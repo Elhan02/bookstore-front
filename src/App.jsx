@@ -10,7 +10,8 @@ import UserContext from "./components/userContext";
 import Login from "./components/Login";
 import GoogleCallback from "./components/GoogleCallBack";
 import Profile from "./components/Profile";
-
+import Volumes from "./components/Volumes";
+import Issues from "./components/Issues";
 
 
 const App = () => {
@@ -30,6 +31,8 @@ const App = () => {
         <Route path="/update-book/:bookId" element={<CreateBook/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/google-callback" element={<GoogleCallback />} />
+        <Route path="/volumes" element={<Volumes />} />
+        <Route path="/issues" element={<Issues />} />
       </Routes>
       <Footer />
     </Router>

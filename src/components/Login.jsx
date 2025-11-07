@@ -3,6 +3,7 @@ import axios from 'axios';
 import UserContext from './userContext';
 import { useNavigate } from 'react-router-dom';
 import AxiosConfig from '../config/AxiosConfig';
+import { FaGoogle } from "react-icons/fa";
 
 const Login = () => {
   const { setUser } = useContext(UserContext);
@@ -53,7 +54,7 @@ const Login = () => {
       </div>
       <button type="submit">Log in</button>
     </form>
-    <button onClick={handleGoogleLogin}>Log in with Google</button>
+    <button id='google-login-button' onClick={handleGoogleLogin}><FaGoogle />Log in with Google</button>
     </>
   );
 };
