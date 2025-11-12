@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 function AddToStoreModal({ issue, onClose, onSave }) {
+    const plainDescription = new DOMParser().parseFromString(issue?.description || "", "text/html").body.textContent || "";
     const {
         register,
         handleSubmit,
@@ -9,7 +10,7 @@ function AddToStoreModal({ issue, onClose, onSave }) {
         formState: { errors },
     } = useForm({
         defaultValues: {
-            description: issue?.description || "",
+            description: plainDescription,
             price: "",
             pageNumber: "",
             availableCopies: "",
