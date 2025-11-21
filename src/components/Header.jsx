@@ -9,18 +9,23 @@ const Header = () => {
         <nav>
             <ul>
                 {user?.role === "Editor" && (<>
-                <li><Link className="nav-link" to="/volumes">Volumes</Link></li>
-                <li><Link className="nav-link" to="/issues">Issues</Link></li>
+                    <li><Link className="nav-link" to="/volumes">Volumes</Link></li>
+                    <li><Link className="nav-link" to="/issues">Issues</Link></li>
                 </>)}
                 <li><Link className="nav-link" to="/authors">Authors</Link></li>
                 <li><Link className="nav-link" to="/publishers">Publishers</Link></li>
                 <li><Link className="nav-link" to="/books">Books</Link></li>
-                {user && <li><Link className="nav-link" to="/add-book">+ New Book</Link></li>}
+                {user && (
+                    <>
+                        <li><Link className="nav-link" to="/add-book">+ New Book</Link></li>
+                        <li><Link className="nav-link" to="publishers/sorted">Sorted Publishers</Link></li>
+                    </>
+                )}
                 {!user && <li><Link className="nav-link" to="/login">Login</Link></li>}
                 {user && (
                     <>
-                    <li><Link className="nav-link" to="/profile">Profile</Link></li>
-                    <LogoutButton />
+                        <li><Link className="nav-link" to="/profile">Profile</Link></li>
+                        <LogoutButton />
                     </>
                 )}
             </ul>

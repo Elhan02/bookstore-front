@@ -13,6 +13,7 @@ import Profile from "./components/Profile";
 import Volumes from "./components/Volumes";
 import Issues from "./components/Issues";
 import Authors from "./components/Authors";
+import SortedPublishers from "./components/SortedPublishers";
 
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/" element={<Books/>} />
         <Route path="/authors" element={<Authors/>} />
         <Route path="/publishers" element={<Publishers/>} />
+        <Route path="publishers/sorted" element={<SortedPublishers />} />
         <Route path="/books" element={<Books/>} />
         <Route path="/add-book" element={<CreateBook/>} />
         <Route path="/profile" element={<Profile/>} />

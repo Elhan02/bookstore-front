@@ -16,3 +16,13 @@ export async function createPublisher(publisherData) {
     const response = await AxiosConfig.post(RESOURCE, publisherData);
     return response.data;
 }
+
+export async function fetchSortTypes() {
+    const response = await AxiosConfig.get(`${RESOURCE}/sortTypes`);
+    return response.data;
+}
+
+export async function fetchSortedPublishers(sortType) {
+    const response = await AxiosConfig.get(`${RESOURCE}/sort?sortType=${sortType}`)
+    return response.data;
+}

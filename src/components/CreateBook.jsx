@@ -4,7 +4,7 @@ import { getAllPublishers } from "../services/PublishersService";
 import { getAllAuthors } from "../services/AuthorsService";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import Spinner from "./Spinner";
+import Spinner from "./PagesElements/Spinner";
 
 const CreateBook = () => {
     const { bookId } = useParams();

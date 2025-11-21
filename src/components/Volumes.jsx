@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { searchVolumes } from "../services/VolumesService";
-import Spinner from "./Spinner";
+import Spinner from "./PagesElements/Spinner";
 import Issues from "./Issues";
 import { useNavigate } from "react-router-dom";
 

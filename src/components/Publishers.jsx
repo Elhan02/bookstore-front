@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getAllPublishers } from "../services/PublishersService";
-import Spinner from "./Spinner";
+import Spinner from "./PagesElements/Spinner";
 
 const Publishers = () => {
     const [publishers, setPublishers] = useState([]);

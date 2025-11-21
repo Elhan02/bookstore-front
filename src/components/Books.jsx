@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { getAllBooks, deleteBook } from "../services/BooksService";
 import { Navigate, useNavigate } from "react-router-dom";
-import Spinner from "./Spinner";
+import Spinner from "./PagesElements/Spinner";
 import UserContext from "./UserContext";
 import AddReviewModal from "./AddReviewModal";
 import { addBookReview } from "../services/BookReviewsService";

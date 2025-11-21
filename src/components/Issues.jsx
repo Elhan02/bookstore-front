@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { addIssueToStore, getIssuesByVolumeId } from "../services/IssuesService";
-import Spinner from "./Spinner";
+import Spinner from "./PagesElements/Spinner";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import AddToStoreModal from "./AddToStoreModal";
 

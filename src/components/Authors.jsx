@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getAuthorsPage } from "../services/AuthorsService";
-import Spinner from "./Spinner";
+import Spinner from "./PagesElements/Spinner";
 import { TableContainer, Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TableFooter } from "@mui/material";
 
 const Authors = () => {
