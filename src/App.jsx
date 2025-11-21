@@ -6,12 +6,13 @@ import Books from "./components/Books";
 import Footer from "./components/Footer";
 import CreateBook from "./components/CreateBook";
 import "./styles/base.scss";
-import UserContext from "./components/userContext";
+import UserContext from "./components/UserContext";
 import Login from "./components/Login";
 import GoogleCallback from "./components/GoogleCallBack";
 import Profile from "./components/Profile";
 import Volumes from "./components/Volumes";
 import Issues from "./components/Issues";
+import Authors from "./components/Authors";
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Books/>} />
+        <Route path="/authors" element={<Authors/>} />
         <Route path="/publishers" element={<Publishers/>} />
         <Route path="/books" element={<Books/>} />
         <Route path="/add-book" element={<CreateBook/>} />

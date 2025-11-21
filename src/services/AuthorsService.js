@@ -7,6 +7,11 @@ export async function getAllAuthors() {
     return response.data;
 }
 
+export async function getAuthorsPage(page) {
+    const response = await AxiosConfig.get(`${RESOURCE}/paging?page=${page}`);
+    return response.data;
+}
+
 export async function getAuthorById(authorId) {
     const response = await AxiosConfig.get(`${RESOURCE}/${authorId}`);
     return response.data;

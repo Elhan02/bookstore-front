@@ -54,7 +54,6 @@ table {
     background-color: lightgray;
     margin: 0 auto;
     width: 100%;
-    height: 100%;
     border-collapse: collapse;
     text-align: center;
 
@@ -82,6 +81,14 @@ table {
 
     button {
         padding: 5px 10px;
+    }
+
+    tfoot tr {
+        &:hover {
+            cursor: default;
+            background-color: lightblue;
+        }
+        background-color: lightblue;
     }
 }
 
