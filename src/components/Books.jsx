@@ -1,28 +1,34 @@
 import React, { useContext, useEffect, useState } from "react";
-import { getAllBooks, deleteBook, fetchSortedBooks, fetchBooksSortTypes } from "../services/BooksService";
+import { fetchFilteredAndSortedBooks, deleteBook, fetchSortedBooks, fetchBooksSortTypes } from "../services/BooksService";
 import { Navigate, useNavigate } from "react-router-dom";
 import Spinner from "./PagesElements/Spinner";
 import UserContext from "./UserContext";
 import AddReviewModal from "./AddReviewModal";
 import { addBookReview } from "../services/BookReviewsService";
 import SortDropdown from "./PagesElements/SortDropdown";
+import FilterSection from "./PagesElements/FilterSection";
 
 const Books = () => {
     const { user } = useContext(UserContext);
     const [books, setBooks] = useState([]);
+    const [allAuthors, setAllAuthors] = useState([]);
     const [selectedBook, setSelectedBook] = useState(null);
     const [errorMsg, setErrorMsg] = useState('');
     const [loading, setLoading] = useState(false);
     const [chosenSortType, setChosenSortType] = useState(0);
     const [sortTypes, setSortTypes] = useState([]);
+    const [filter, setFilter] = useState([]);
 
     const navigate = useNavigate();
 
-    async function loadBooks() {
+    async function loadSortedBooks() {
         try {
             setLoading(true);
             const data = await fetchSortedBooks(chosenSortType);
             setBooks(data);
+
+            const authors = [...new Set(data.map(b => b.authorFullName))];
+            setAllAuthors(authors);
         } catch (error) {
             if (error.status && error.status === 500) {
                 setErrorMsg("We're experiencing technical difficulties. Please try again shortly.")
@@ -34,6 +40,29 @@ const Books = () => {
             console.log("An error occurred while fetching Books:", error);
         }
         setLoading(false);
+    }
+
+
+    function loadFilteredAndSortedBooks(filter) {
+        const getFilteredAndSortedBooks = async () => {
+            try {
+                setLoading(true);
+                const data = await fetchFilteredAndSortedBooks(filter, chosenSortType);
+                setFilter(filter)
+                setBooks(data);
+            } catch (error) {
+                if (error.status && error.status === 500) {
+                    setErrorMsg("We're experiencing technical difficulties. Please try again shortly.")
+                } else if (error.request) {
+                    setErrorMsg("The server seems to be taking too long to respond. Please try again in a moment.");
+                } else {
+                    setErrorMsg("Something went wrong. Please try again.");
+                }
+                console.log("An error occurred while fetching Books:", error);
+            }
+            setLoading(false);
+        }
+        getFilteredAndSortedBooks();
     }
 
     async function loadSortTypes() {
@@ -99,28 +128,36 @@ const Books = () => {
         }
     }
 
+    function getFormatedDate(date) {
+        const [year, month, day] = date.split('T')[0].split('-');
+        return `${day}.${month}.${year}.`
+    }
+
     useEffect(() => {
-        loadSortTypes();
-        loadBooks();
-        return (
-            console.log('Books page unmounted.')
-        );
+        loadSortedBooks();
     }, [])
 
     useEffect(() => {
-        loadBooks();
+        loadSortTypes();
+        if (filter && Object.keys(filter).length > 0) {
+            loadFilteredAndSortedBooks(filter)
+        } else {
+            loadSortedBooks();
+        }
     }, [chosenSortType]);
 
     return (
         <div>
             <h1>Books page</h1>
+            <div className="filter-container">
+                <FilterSection authors={allAuthors} onfilter={loadFilteredAndSortedBooks} />
+            </div>
 
-            <div className="sort-dropdown-container" style={{ margin: "50px 10% 10%", width: "20%" }}>
+            <div className="sort-dropdown-container" style={{ margin: "50px 10% 0", width: "20%" }}>
                 <SortDropdown sortType={chosenSortType} onSelect={handleSortTypeChange} sortTypes={sortTypes} />
             </div>
 
             <div className="table-wrapper">
-
                 {loading && <Spinner />}
                 {errorMsg && <p>{errorMsg}</p>}
                 <table className="books-table">
@@ -132,6 +169,7 @@ const Books = () => {
                             <th>ISBN</th>
                             <th>Publication date</th>
                             <th>Author</th>
+                            <th>Author Date of birth</th>
                             <th>Publisher</th>
                             {user?.role === "Editor" &&
                                 <>
@@ -149,8 +187,9 @@ const Books = () => {
                                 <td>{book.averageRating}</td>
                                 <td>{book.pageCount}</td>
                                 <td>{book.isbn}</td>
-                                <td>{new Date(book.publishedDate).toLocaleDateString('en-US')}</td>
+                                <td>{getFormatedDate(book.publishedDate)}</td>
                                 <td>{book.authorFullName}</td>
+                                <td>{getFormatedDate(book.authorDateOfBirth)}</td>
                                 <td>{book.publisherName}</td>
                                 {user?.role === "Editor" &&
                                     <>
