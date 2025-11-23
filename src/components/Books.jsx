@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { getAllBooks, deleteBook } from "../services/BooksService";
+import { getAllBooks, deleteBook, fetchSortedBooks, fetchBooksSortTypes } from "../services/BooksService";
 import { Navigate, useNavigate } from "react-router-dom";
 import Spinner from "./PagesElements/Spinner";
 import UserContext from "./UserContext";
 import AddReviewModal from "./AddReviewModal";
 import { addBookReview } from "../services/BookReviewsService";
+import SortDropdown from "./PagesElements/SortDropdown";
 
 const Books = () => {
     const { user } = useContext(UserContext);
@@ -12,13 +13,15 @@ const Books = () => {
     const [selectedBook, setSelectedBook] = useState(null);
     const [errorMsg, setErrorMsg] = useState('');
     const [loading, setLoading] = useState(false);
+    const [chosenSortType, setChosenSortType] = useState(0);
+    const [sortTypes, setSortTypes] = useState([]);
 
     const navigate = useNavigate();
 
     async function loadBooks() {
         try {
             setLoading(true);
-            const data = await getAllBooks();
+            const data = await fetchSortedBooks(chosenSortType);
             setBooks(data);
         } catch (error) {
             if (error.status && error.status === 500) {
@@ -31,6 +34,28 @@ const Books = () => {
             console.log("An error occurred while fetching Books:", error);
         }
         setLoading(false);
+    }
+
+    async function loadSortTypes() {
+        try {
+            setLoading(true);
+            const types = await fetchBooksSortTypes();
+            setSortTypes(types);
+        } catch (error) {
+            if (error.status && error.status === 500) {
+                setErrorMsg("We're experiencing technical difficulties. Please try again shortly.")
+            } else if (error.request) {
+                setErrorMsg("The server seems to be taking too long to respond. Please try again in a moment.");
+            } else {
+                setErrorMsg("Something went wrong. Please try again.");
+            }
+            console.log("An error occurred while fetching Books sort types:", error);
+        }
+        setLoading(false);
+    }
+
+    const handleSortTypeChange = (sortType) => {
+        setChosenSortType(sortType);
     }
 
     async function handleDelete(bookId) {
@@ -75,16 +100,25 @@ const Books = () => {
     }
 
     useEffect(() => {
+        loadSortTypes();
         loadBooks();
-
         return (
             console.log('Books page unmounted.')
         );
     }, [])
 
+    useEffect(() => {
+        loadBooks();
+    }, [chosenSortType]);
+
     return (
         <div>
             <h1>Books page</h1>
+
+            <div className="sort-dropdown-container" style={{ margin: "50px 10% 10%", width: "20%" }}>
+                <SortDropdown sortType={chosenSortType} onSelect={handleSortTypeChange} sortTypes={sortTypes} />
+            </div>
+
             <div className="table-wrapper">
 
                 {loading && <Spinner />}
@@ -100,10 +134,10 @@ const Books = () => {
                             <th>Author</th>
                             <th>Publisher</th>
                             {user?.role === "Editor" &&
-                            <>
-                            <th></th>
-                            <th></th>
-                            </>
+                                <>
+                                    <th></th>
+                                    <th></th>
+                                </>
                             }
                             {user && <th></th>}
                         </tr>
@@ -131,9 +165,9 @@ const Books = () => {
                 </table>
                 {selectedBook && (
                     <AddReviewModal
-                    book={selectedBook}
-                    onClose={() => setSelectedBook(null)}
-                    onSave={handleSaveReview}
+                        book={selectedBook}
+                        onClose={() => setSelectedBook(null)}
+                        onSave={handleSaveReview}
                     />
                 )}
             </div>
